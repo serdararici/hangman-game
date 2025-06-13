@@ -20,6 +20,47 @@ public class Main {
         System.out.println("** Welcome to Java Hangman! **");
         System.out.println("******************************");
 
+        while(wrongGuesses < 6) {
+
+            System.out.println(getHangmanArt(wrongGuesses));
+
+            System.out.print("Word: ");
+
+            for(char c : wordState) {
+                System.out.print(c + " ");
+            }
+            System.out.println();
+
+            System.out.print("Guess a letter: ");
+            char guess = scanner.next().toLowerCase().charAt(0);
+
+            if(word.indexOf(guess) >= 0) {
+                System.out.println("Correct Guess!");
+                for(int i = 0; i < word.length(); i++) {
+                    if(word.charAt(i) == guess) {
+                        wordState.set(i, guess);
+                    }
+                }
+
+                if(!wordState.contains('_')) {
+                    System.out.print(getHangmanArt(wrongGuesses));
+                    System.out.println("YOU WIN!");
+                    System.out.println("The word was: " + word);
+                    break;
+                }
+            }
+            else {
+                wrongGuesses++;
+                System.out.println("Wrong guess!");
+            }
+        }
+
+        if(wrongGuesses >= 6) {
+            System.out.print(getHangmanArt(wrongGuesses));
+            System.out.println("GAME OVER!");
+            System.out.println("The word was: " + word);
+        }
+
         scanner.close();
     }
 
@@ -27,38 +68,38 @@ public class Main {
         return switch (wrongGuesses) {
             case 0 -> """
                         
-                        
+                        hangman -> 
                         
                         """;
             case 1 -> """
-                         o
-                        
+                                    o
+                        hangman -> 
                         
                         """;
             case 2 -> """
-                         o
-                         |
+                                    o
+                        hangman ->  |
                         
                         """;
             case 3 -> """
-                         o
-                        /|
+                                    o
+                        hangman -> /|
                         
                         """;
             case 4 -> """
-                         o
-                        /|\\
+                                    o
+                        hangman -> /|\\
                         
                         """;
             case 5 -> """
-                         o
-                        /|\\
-                        /
+                                    o
+                        hangman -> /|\\
+                                  /
                         """;
             case 6 -> """
-                         o
-                        /|\\
-                        / \\
+                                    o
+                        hangman -> /|\\
+                                   / \\
                         """;
             default -> "";
         };
